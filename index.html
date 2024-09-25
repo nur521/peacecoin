@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peace App</title>
+    <style>
+        .c{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300;
+            width: 300;
+        }
+        .tok{
+            width: 300;
+            height: 100;
+            background-image: 'https://rivercitybank.com/wp-content/uploads/2018/02/wiring-money-1.jpg';
+
+        }
+        .re{
+            margin-left: 6%;
+        }
+        .me{
+            margin-left: 9%;
+        }
+        
+        .su{
+            margin-left: -60%;
+            margin-top: 20%;
+        }
+        .te{
+            margin-top: -50%;
+            margin-left: 40%;
+        }
+        .e{
+            background-color: gray;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 10px;
+            max-width: 290px;
+            text-align: center;
+            margin-left: 6%;
+        }
+        .x{
+            background-color: rgb(254, 243, 245);
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 10px;
+            max-width: 290px;
+            text-align: center;
+            margin-left: 6%;
+        }
+        .r{
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+            height: auto;
+            margin-top: -6%;
+        }
+        .token{
+            margin-left: 51%;
+            margin-top: -2.5%;
+        }
+        button{
+            margin-left: 47%;
+        }
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: black;
+        }
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .navbar a:hover {
+            background: #f1f1f1;
+            color: black;
+        }
+        .navbar a.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .content-section {
+            display: none;
+            padding: 20px;
+            color: white;
+        }
+        .active-section {
+            display: block;
+        }
+        .form-input {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+            max-width: 300px;
+        }
+    </style>
+    <script>
+        function fetchData() {
+        fetch('/api/get_user_data')  // Эндпоинт, который возвращает данные пользователя
+            .then(response => response.json())
+            .then(data => {
+                // Обновите элементы страницы с полученными данными
+                document.getElementById('balance').innerText = data.balance;
+                document.getElementById('remaining_tokens').innerText = data.remaining_tokens;
+                // Другие обновления данных
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
+    // Вызов fetchData при загрузке страницы
+    window.onload = fetchData;
+
+    // Дополнительно, периодическое обновление данных каждые 10 секунд
+    setInterval(fetchData, 10000);
+        // Функция для показа нужного раздела (страницы)
+        function showSection(sectionId) {
+            const sections = document.getElementsByClassName('content-section');
+            for (let i = 0; i < sections.length; i++) {
+                sections[i].classList.remove('active-section');
+            }
+            document.getElementById(sectionId).classList.add('active-section');
+        }
+
+        // Функция для извлечения параметров из URL
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)');
+            let results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Функция для отображения данных пользователя
+        function displayUserInfo() {
+            const username = getParameterByName('username') || "Гость";
+            const userId = getParameterByName('user_id') || "Неизвестно";
+            const balance = getParameterByName('balance') || "0";
+            const remainingTokens = getParameterByName('remaining_tokens') || "Неизвестно";
+            const referrals = getParameterByName('referrals') || "0";
+
+            document.getElementById('username').textContent = username;
+            document.getElementById('user_id').textContent = userId;
+            document.getElementById('balance').textContent = balance;
+            document.getElementById('remaining_tokens').textContent = remainingTokens;
+            document.getElementById('referrals').textContent = referrals;
+
+            // Показать реферальную ссылку
+            const referralLink = `https://t.me/PeaceCoinOfficial_bot?start=${userId}`;
+            document.getElementById('referral_link').textContent = referralLink;
+            document.getElementById('referral_link').href = referralLink;
+        }
+        function subscribeToChannel(channelNumber) {
+        if (channelNumber === 1) {
+            window.open('https://t.me/nuriknik', '_blank');
+        } else if (channelNumber === 2) {
+            window.open('https://t.me/Channel2', '_blank');
+        } else if (channelNumber === 3) {
+            window.open('https://t.me/Channel3', '_blank');
+        }
+    }
+
+    function checkSubscription(channelNumber) {
+        if (channelNumber === 1) {
+            window.location.href = `https://t.me/PeaceCoinOfficial_bot?start=/check1`;
+        } else if (channelNumber === 2) {
+            window.location.href = `https://t.me/PeaceCoinOfficial_bot?start=/check2`;
+        } else if (channelNumber === 3) {
+            window.location.href = `https://t.me/PeaceCoinOfficial_bot?start=/check3`;
+        }
+    }
+        // Выполняем функцию при загрузке страницы
+        window.onload = displayUserInfo;
+    </script>
+</head>
+<body>
+    <div id="main-section" class="content-section active-section">
+        <div class="c"><img class="o" src="44ca74bf-173a-4650-ac6f-e3357b26ab3f.jfif" width="100" height="100" alt=""></div>
+        <h1 align="center"><font color="white">Hello,</font> <font color="pink"><span id="username">Гость</span>!</font><img src="https://i.pinimg.com/originals/3c/e9/09/3ce909ba4fe308411e3a5ae599075f10.png" alt="" width="30" height="30"></h1>
+        
+        <div class="e">
+            <div>
+                <font color="white"><p align="center">Your total balance: </p></font>
+                <h1 align="center" text="white"><font color="pink"><p><span id="balance">0</span> Peace</p></font></h1>
+            </div>
+        </div>
+        
+        <div class="d">
+            <font color="pink"><p align="center">Your Telegram ID: <span id="user_id">Неизвестно</span></p></font>
+        </div>
+        <br>
+    <br>
+    <h1><font color="white">Telegram Community:</font></h1>
+        <a href="https://t.me/PeaceCoinOfficial"><img class="re" src="https://1.bp.blogspot.com/-5UJrx8T_XQ4/XgIzFINyg_I/AAAAAAAAAtI/_UOoAIY49vIu7d5OWj5387vwYZWPPluNgCLcBGAsYHQ/s1600/PicsArt_12-24-08.37.34.png" alt="" width="300" height="100"></a><br>
+        <h1><font color="white">Youtube:</font></h1>
+        <a class="re" href="https://youtube.com/@peacecoin?si=IowOJlsp4hXTF6tC"><img src="https://www.alliedmarine.com/photos/subscribe-allied-png.png" width="300" height="150" alt=""></a><br>
+        <h1><font color="white">Instagram:</font></h1>
+        <a class="" href="https://www.instagram.com/peacecoincommunity?utm_source=qr&igsh=dHRlc3hidmQzZnZh"><img src="https://mir-s3-cdn-cf.behance.net/projects/max_808/ed5b3d108740425.Y3JvcCwxMzgwLDEwODAsMjcwLDA.png" alt="" width="" height="200"></a><br>
+        <h1><font color="white">X Community:</font></h1>
+        <a class="" href="https://x.com/PeaceCoinYes?t=AfbA5itT2-8ea0HT4dZH-Q&s=08"><img src="https://educ-elvlc-2021.sites.olt.ubc.ca/files/2023/07/download-1.png" width="" height="200" alt=""></a>
+        <br>
+        <br>
+        <br>
+        <br>
+    </div>
+    
+
+    <div id="remaining-tokens-section" class="content-section">
+        <h1 align="center"><font color="white">Total remaining tokens:</font></h1>
+       <div class="x"> <h1 align="center"><font color="red"><span id="remaining_tokens">Неизвестно</span> PeaceCoins</font></h1></div>
+     <!--  <div align="center">
+        <button onclick="subscribeToChannel(1)">Subscribe Channel 1</button>
+        <button onclick="checkSubscription(1)">Check 1</button>
+    </div>
+    <div align="center">
+        <button onclick="subscribeToChannel(2)">Subscribe Channel 2</button>
+        <button onclick="checkSubscription(2)">Check 2</button>
+    </div>
+    <div align="center">
+        <button onclick="subscribeToChannel(3)">Subscribe Channel 3</button>
+        <button onclick="checkSubscription(3)">Check 3</button>
+    </div>-->
+    </div>
+
+    <div id="referral-section" class="content-section">
+        <div class="tok"><img src="https://rivercitybank.com/wp-content/uploads/2018/02/wiring-money-1.jpg" alt="" width="300" height="150">
+            <h1 align="center">Earn 1500 tokens by inviting 5 friends!</h1></div>
+        <h2 align="center"><font color="white">Your Referral Link</font></h2>
+        <p align="center"><a id="referral_link" href="#" style="color: blue; text-decoration: underline;">Click to copy</a></p>
+        <h2 align="center"><font color="white">Referrals: <span id="referrals">0</span></font></h2>
+    </div>
+
+
+    <div class="navbar">
+        <a href="#" onclick="showSection('main-section')" class="active"><img src="https://static.tildacdn.com/tild3063-6430-4666-b630-303136626164/imgonline-com-ua-Tra.png" alt="" width="30" height="30"><br>Main</a>
+        <a href="#" onclick="showSection('remaining-tokens-section')"><img src="https://i.pinimg.com/originals/9d/da/7b/9dda7b9b586a0ea8ee40ae978005d9fb.png" alt="" width="30" height="30"><br>Remain Tokens</a>
+        <a href="#" onclick="showSection('referral-section')"><img src="https://www.guelphhumber.ca/sites/default/files/page_images/icons-dark-cyan-03.png" width="40" height="40" alt=""><br>Referrals</a>
+       
+    </div>
+</body>
+</html>
